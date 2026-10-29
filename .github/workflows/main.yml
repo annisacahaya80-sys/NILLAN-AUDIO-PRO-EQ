@@ -1,8 +1,12 @@
-
 name: Build NILLAN AUDIO PRO EQ APK
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -10,12 +14,6 @@ jobs:
     steps:
       - name: Ambil repositori
         uses: actions/checkout@v4
-
-      - name: Ekstrak ZIP proyek
-        run: |
-          mkdir -p proyek
-          unzip -o NILLAN_AUDIO_PRO_EQ_GITHUB_READY.zip -d proyek
-          find proyek -name settings.gradle -print
 
       - name: Siapkan Java
         uses: actions/setup-java@v4
@@ -25,13 +23,11 @@ jobs:
 
       - name: Bangun APK
         run: |
-          ROOT="$(find proyek -name settings.gradle -printf '%h\n' | head -n 1)"
-          test -n "$ROOT"
-          cd "$ROOT"
+          cd NILLAN_AUDIO_PRO_EQ
           gradle assembleDebug
 
       - name: Simpan APK
         uses: actions/upload-artifact@v4
         with:
           name: NILLAN-AUDIO-PRO-EQ-APK
-          path: proyek/**/build/outputs/apk/debug/*.apk
+          path: NILLAN_AUDIO_PRO_EQ/app/build/outputs/apk/debug/*.apk
