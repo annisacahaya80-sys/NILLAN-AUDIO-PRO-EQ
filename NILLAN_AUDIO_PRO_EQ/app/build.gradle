@@ -1,0 +1,13 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.nillanaudio.proeq'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.nillanaudio.proeq'
+        minSdk 28
+        targetSdk 28
+        versionCode 2
+        versionName '0.2.0-pro-alpha'
+    }
+}
